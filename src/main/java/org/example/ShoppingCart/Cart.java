@@ -9,7 +9,6 @@ import java.util.HashMap;
 public class Cart {
 
     private HashMap<String, Integer> products;
-    private int totalAmount;
 
     public void addProduct(String productId, int amount) {
         if(CommonUtil.checkIsNullOrEmpty(products)) {
@@ -18,10 +17,8 @@ public class Cart {
         if(products.containsKey(productId)) {
             int count = products.get(productId);
             products.put(productId, ++count);
-            totalAmount += amount;
         } else {
             products.put(productId, 1);
-            totalAmount += amount;
         }
     }
 }

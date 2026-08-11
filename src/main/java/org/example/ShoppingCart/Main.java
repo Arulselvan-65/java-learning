@@ -128,13 +128,14 @@ public class Main {
         }
         Cart cart = carts.get(uid);
         HashMap<String, Integer> prods = cart.getProducts();
-        System.out.println("Product Id    Product Quantity");
+        int totalAmount = 0;
+        System.out.println("Product Id    Product Quantity    Amount");
         for(int i=0;i<products.size();i++) {
             String id = "P" + (i+1);
-            System.out.format("%s    %d\n",id, prods.get(id));
+            int amount = products.get(id).getProductRate() * prods.get(id);
+            System.out.format("%s    %d    %d\n",id, prods.get(id), amount);
+            totalAmount += amount;
         }
-        System.out.println("Total Amount: " + cart.getTotalAmount());
-
+        System.out.println("Total Amount: " + totalAmount);
     }
-
 }
