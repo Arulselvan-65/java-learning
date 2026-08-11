@@ -7,8 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class Product {
 
-    private String productId;
     private String productName;
-    private int productCount;
+    private int productRate;
 
 }
