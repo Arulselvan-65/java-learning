@@ -3,22 +3,18 @@ package org.example.ShoppingCart;
 import lombok.Data;
 import org.example.Utils.CommonUtil;
 
+import java.util.Map;
 import java.util.HashMap;
 
 @Data
 public class Cart {
 
-    private HashMap<String, Integer> products;
+    private Map<String, Integer> products;
 
-    public void addProduct(String productId, int amount) {
+    public void addProduct(String productId) {
         if(CommonUtil.checkIsNullOrEmpty(products)) {
             products = new HashMap<>();
         }
-        if(products.containsKey(productId)) {
-            int count = products.get(productId);
-            products.put(productId, ++count);
-        } else {
-            products.put(productId, 1);
-        }
+        products.merge(productId, 1, Integer::sum);
     }
 }
