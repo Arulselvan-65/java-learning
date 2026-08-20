@@ -5,5 +5,5 @@ import com.springboot.contact_manager.dto.response.BaseResponse;
 
 public interface ContactService {
 
-    public BaseResponse createContact(ContactDTO request);
+    BaseResponse createContact(ContactDTO request);
 }

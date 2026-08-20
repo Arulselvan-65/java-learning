@@ -1,6 +1,7 @@
 package com.springboot.contact_manager.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 
 import java.util.UUID;
 

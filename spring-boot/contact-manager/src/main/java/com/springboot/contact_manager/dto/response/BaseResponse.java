@@ -1,8 +1,12 @@
 package com.springboot.contact_manager.dto.response;
 
+import com.springboot.contact_manager.dto.StatusDetail;
+import lombok.Data;
+
+@Data
 public class BaseResponse {
 
     public int status;
-    public String StatusDetail;
+    public StatusDetail statusDetail;
 
 }
