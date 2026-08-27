@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class BaseResponse {
 
-    public int status;
-    public StatusDetail statusDetail;
+    private int status;
+    private StatusDetail statusDetail;
 
 }

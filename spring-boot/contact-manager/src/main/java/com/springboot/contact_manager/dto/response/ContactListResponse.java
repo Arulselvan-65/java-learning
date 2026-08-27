@@ -5,6 +5,6 @@ import java.util.List;
 
 public class ContactListResponse {
 
-    public List<ContactDTO> contacts;
+    private List<ContactDTO> contacts;
 
 }

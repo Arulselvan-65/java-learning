@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class StatusDetail {
 
-    public int code;
-    public String message;
+    private int code;
+    private String message;
 
 }

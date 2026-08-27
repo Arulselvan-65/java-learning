@@ -14,15 +14,15 @@ public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    public UUID id;
+    private UUID id;
 
     @Column(name = "name")
-    public String name;
+    private String name;
 
     @Column(name = "phone_number")
-    public String phoneNumber;
+    private String phoneNumber;
 
     @Column(name = "email")
-    public String email;
+    private String email;
 
 }

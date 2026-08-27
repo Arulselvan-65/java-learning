@@ -4,6 +4,6 @@ import com.springboot.contact_manager.dto.ContactDTO;
 
 public class ContactResponse extends BaseResponse {
 
-    public ContactDTO contact;
+    private ContactDTO contact;
 
 }
