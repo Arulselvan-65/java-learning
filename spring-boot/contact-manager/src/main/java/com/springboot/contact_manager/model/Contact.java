@@ -3,13 +3,17 @@ package com.springboot.contact_manager.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import org.hibernate.annotations.Type;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Entity
-@Table(name = "contacts")
 @Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "contacts")
 public class Contact {
 
     @Id

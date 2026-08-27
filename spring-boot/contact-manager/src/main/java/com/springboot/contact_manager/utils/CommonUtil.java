@@ -8,7 +8,7 @@ import java.util.Objects;
 public class CommonUtil {
 
     public static boolean checkIsNullOrEmpty(Object data) {
-        return data == null;
+        return data == null || data == "";
     }
 
     public static boolean checkIsNullOrEmpty(Collection<?> data) {
