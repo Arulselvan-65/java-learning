@@ -9,10 +9,14 @@ import java.util.UUID;
 
 public interface ContactService {
 
+    ContactListResponse search(String name);
+
     ContactResponse createContact(ContactDTO request);
 
-    BaseResponse deleteContact(UUID id);
+    ContactResponse getContact(UUID id);
 
     ContactListResponse getAllContacts();
+
+    BaseResponse deleteContact(UUID id);
 
 }

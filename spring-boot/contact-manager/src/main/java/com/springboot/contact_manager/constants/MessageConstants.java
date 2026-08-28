@@ -8,5 +8,7 @@ public class MessageConstants {
 
     public static String ERROR = "Internal Server Error";
 
-    public static String NO_CONTENT = "Request Processed Successfully";
+    public static String NOT_FOUND = "Not found";
+
+    public static String BAD_REQUEST = "Bad request";
 }

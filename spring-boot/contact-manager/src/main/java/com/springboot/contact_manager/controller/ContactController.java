@@ -20,11 +20,29 @@ public class ContactController {
     @Autowired
     ContactService contactService;
 
+    @GetMapping(EndpointConstants.SEARCH)
+    public ResponseEntity<ContactListResponse> search(@RequestParam("name") String name) {
+        ContactListResponse response = contactService.search(name);
+
+        return ResponseEntity
+                .status(response.getStatus())
+                .body(response);
+    }
+
     @PostMapping(EndpointConstants.CREATE_CONTACT)
     public ResponseEntity<ContactResponse> createContact(@RequestBody ContactDTO request) {
         ContactResponse response = contactService.createContact(request);
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .status(response.getStatus())
+                .body(response);
+    }
+
+    @GetMapping(EndpointConstants.GET_CONTACT)
+    public ResponseEntity<ContactResponse> getContact(@PathVariable("id") UUID id) {
+        ContactResponse response = contactService.getContact(id);
+
+        return ResponseEntity
+                .status(response.getStatus())
                 .body(response);
     }
 
@@ -33,7 +51,7 @@ public class ContactController {
         ContactListResponse response = contactService.getAllContacts();
 
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(response.getStatus())
                 .body(response);
     }
 
@@ -41,7 +59,7 @@ public class ContactController {
     public ResponseEntity<BaseResponse> deleteContact(@PathVariable("id") UUID id) {
         BaseResponse response = contactService.deleteContact(id);
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(response.getStatus())
                 .body(response);
     }
 

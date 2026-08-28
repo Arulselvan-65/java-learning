@@ -7,6 +7,7 @@ import com.springboot.contact_manager.repository.ContactRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -18,12 +19,25 @@ public class ContactDAOImpl implements ContactDAO {
         this.contactRepository = repository;
     }
 
-    public Contact add(Contact contact) {
+    public List<Contact> search(String name) {
+        return contactRepository.search(name);
+    }
+
+    public Contact addContact(Contact contact) {
         return contactRepository.save(contact);
     }
 
     public List<Contact> getContacts() {
         return contactRepository.findAll();
+    }
+
+    public Optional<Contact> getContact(UUID id) {
+        return contactRepository.findById(id);
+    }
+
+
+    public boolean existsByName(String name) {
+        return contactRepository.existsByName(name);
     }
 
 

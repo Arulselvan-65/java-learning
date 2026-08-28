@@ -14,15 +14,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<BaseResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
         StatusDetail statusDetail = new StatusDetail();
-        statusDetail.setCode(StatusConstants.ERROR);
+        statusDetail.setCode(StatusConstants.BAD_REQUEST);
         statusDetail.setMessage(ex.getMessage());
 
         BaseResponse response = new BaseResponse();
-        response.setStatus(StatusConstants.ERROR);
+        response.setStatus(StatusConstants.BAD_REQUEST);
         response.setStatusDetail(statusDetail);
 
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .status(HttpStatus.BAD_REQUEST)
                 .body(response);
     }
 

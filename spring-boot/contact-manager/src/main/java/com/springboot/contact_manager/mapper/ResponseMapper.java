@@ -23,4 +23,16 @@ public class ResponseMapper {
         }
         return res;
     }
+
+    public List<ContactDTO> convertContact(List<Contact> contacts) {
+        List<ContactDTO> res = new ArrayList<>();
+        for(Contact c : contacts) {
+            res.add(ContactDTO.builder()
+                    .id(c.getId())
+                    .name(c.getName())
+                    .build()
+            );
+        }
+        return res;
+    }
 }

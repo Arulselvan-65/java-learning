@@ -8,6 +8,8 @@ public class StatusConstants {
 
     public static int ERROR = 500;
 
-    public static int NO_CONTENT = 204;
+    public static int BAD_REQUEST = 400;
+
+    public static int NOT_FOUND = 404;
 
 }
