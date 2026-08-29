@@ -16,6 +16,8 @@ public interface ContactDAO {
 
     List<Contact> getContacts();
 
+    boolean existsById(UUID id);
+
     boolean existsByName(String name);
 
     void deleteContact(UUID id);

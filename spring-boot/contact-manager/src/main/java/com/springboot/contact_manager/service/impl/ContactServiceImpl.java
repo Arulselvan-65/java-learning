@@ -86,8 +86,7 @@ public class ContactServiceImpl implements ContactService {
 
     }
 
-
-    public ContactListResponse getAllContacts() {
+    public ContactListResponse getContacts() {
         ContactListResponse response = new ContactListResponse();
         List<Contact> contacts = contactDAO.getContacts();
         List<ContactDTO> result = responseMapper.convert(contacts);
@@ -99,8 +98,19 @@ public class ContactServiceImpl implements ContactService {
         return response;
     }
 
+    public BaseResponse updateContact(UUID id) {
+        BaseResponse response = new BaseResponse();
+        return response;
+    }
+
     public BaseResponse deleteContact(UUID id) {
         BaseResponse response = new BaseResponse();
+        if(!contactDAO.existsById(id)) {
+            response.setStatus(StatusConstants.NOT_FOUND);
+            statusDetail.setCode(StatusConstants.NOT_FOUND);
+            statusDetail.setMessage(MessageConstants.NOT_FOUND);
+            response.setStatusDetail(statusDetail);
+        }
         contactDAO.deleteContact(id);
         response.setStatus(StatusConstants.SUCCESS);
         statusDetail.setCode(StatusConstants.SUCCESS);

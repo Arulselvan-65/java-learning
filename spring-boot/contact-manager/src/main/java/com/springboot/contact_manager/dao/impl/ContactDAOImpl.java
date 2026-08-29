@@ -35,6 +35,9 @@ public class ContactDAOImpl implements ContactDAO {
         return contactRepository.findById(id);
     }
 
+    public boolean existsById(UUID id) {
+        return contactRepository.existsById(id);
+    }
 
     public boolean existsByName(String name) {
         return contactRepository.existsByName(name);

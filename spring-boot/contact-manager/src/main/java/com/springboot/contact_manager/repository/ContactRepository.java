@@ -10,8 +10,10 @@ import java.util.UUID;
 
 public interface ContactRepository extends JpaRepository<Contact, UUID> {
 
+    boolean existsById(UUID id);
+
     boolean existsByName(String name);
 
-    @Query(value = "SELECT c FROM Contact c WHERE c.name LIKE name ORDER BY c.name")
+    @Query(value = "SELECT c FROM Contact c WHERE c.name LIKE %:name% ORDER BY c.name")
     List<Contact> search(@Param("name") String name);
 }

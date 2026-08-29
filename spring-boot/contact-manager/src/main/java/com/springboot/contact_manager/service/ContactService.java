@@ -15,7 +15,9 @@ public interface ContactService {
 
     ContactResponse getContact(UUID id);
 
-    ContactListResponse getAllContacts();
+    ContactListResponse getContacts();
+
+    BaseResponse updateContact(UUID id);
 
     BaseResponse deleteContact(UUID id);
 

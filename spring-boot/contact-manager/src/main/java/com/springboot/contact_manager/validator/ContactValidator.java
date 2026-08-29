@@ -2,16 +2,18 @@ package com.springboot.contact_manager.validator;
 
 import com.springboot.contact_manager.dao.ContactDAO;
 import com.springboot.contact_manager.dto.ContactDTO;
-import com.springboot.contact_manager.repository.ContactRepository;
 import com.springboot.contact_manager.utils.CommonUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ContactValidator {
 
-    @Autowired
-    ContactDAO contactDAO;
+
+    private final ContactDAO contactDAO;
+
+    public ContactValidator(ContactDAO contactDAO) {
+        this.contactDAO = contactDAO;
+    }
 
     public void validate(ContactDTO request) {
         if(CommonUtil.checkIsNullOrEmpty(request.getName())) {
