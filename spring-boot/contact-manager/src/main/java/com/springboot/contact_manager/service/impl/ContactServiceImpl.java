@@ -49,6 +49,7 @@ public class ContactServiceImpl implements ContactService {
             statusDetail.setCode(StatusConstants.SUCCESS);
             statusDetail.setMessage(MessageConstants.SUCCESS);
             response.setStatusDetail(statusDetail);
+            return response;
         }
         response.setStatus(StatusConstants.NOT_FOUND);
         statusDetail.setCode(StatusConstants.NOT_FOUND);
@@ -110,11 +111,16 @@ public class ContactServiceImpl implements ContactService {
         Contact contact = contactDAO.getContact(id);
         if(!CommonUtil.checkIsNullOrEmpty(contact)) {
             updateFields(contact, request);
+            contactDAO.save(contact);
+            response.setStatus(StatusConstants.SUCCESS);
+            statusDetail.setCode(StatusConstants.SUCCESS);
+            statusDetail.setMessage(MessageConstants.SUCCESS);
+            response.setStatusDetail(statusDetail);
+            return response;
         }
-        contactDAO.save(contact);
-        response.setStatus(StatusConstants.SUCCESS);
-        statusDetail.setCode(StatusConstants.SUCCESS);
-        statusDetail.setMessage(MessageConstants.SUCCESS);
+        response.setStatus(StatusConstants.NOT_FOUND);
+        statusDetail.setCode(StatusConstants.NOT_FOUND);
+        statusDetail.setMessage(MessageConstants.NOT_FOUND);
         response.setStatusDetail(statusDetail);
         return response;
     }
@@ -139,7 +145,7 @@ public class ContactServiceImpl implements ContactService {
 
     private void updateFields(Contact contact, ContactDTO request) {
         if(!CommonUtil.checkIsNullOrEmpty(request.getName())) {
-            if(!contactDAO.existsByName(request.getName()))
+            if(!contactDAO.existsByNameAndIdNot(request.getName(), contact.getId()))
                 contact.setName(request.getName());
             else throw new IllegalArgumentException("Name already exists");
         }
@@ -152,7 +158,7 @@ public class ContactServiceImpl implements ContactService {
         if(!CommonUtil.checkIsNullOrEmpty(request.getPhoneNumber())) {
             if(!request.getPhoneNumber().matches("^\\+\\d{2} [6-9]\\d{9}$"))
                 throw new IllegalArgumentException("Enter a valid phone number");
-            if(!contactDAO.existsByPhoneNumber(request.getPhoneNumber()))
+            if(!contactDAO.existsByPhoneNumberAndIdNot(request.getPhoneNumber(), contact.getId()))
                 contact.setPhoneNumber(request.getPhoneNumber());
             else throw new IllegalArgumentException("Phone Number already exists");
         }

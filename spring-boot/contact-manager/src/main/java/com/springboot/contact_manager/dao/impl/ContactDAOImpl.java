@@ -45,8 +45,16 @@ public class ContactDAOImpl implements ContactDAO {
         return contactRepository.existsByPhoneNumber(number);
     }
 
+    public boolean existsByPhoneNumberAndIdNot(String number, UUID id) {
+        return contactRepository.existsByPhoneNumberAndIdNot(number, id);
+    }
+
     public boolean existsByName(String name) {
         return contactRepository.existsByName(name);
+    }
+
+    public boolean existsByNameAndIdNot(String name, UUID id) {
+        return contactRepository.existsByNameAndIdNot(name,id);
     }
 
     public void deleteContact(UUID id) {

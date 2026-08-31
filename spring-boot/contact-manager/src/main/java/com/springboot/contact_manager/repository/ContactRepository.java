@@ -13,7 +13,11 @@ public interface ContactRepository extends JpaRepository<Contact, UUID> {
 
     boolean existsByName(String name);
 
+    boolean existsByNameAndIdNot(String name, UUID id);
+
     boolean existsByPhoneNumber(String number);
+
+    boolean existsByPhoneNumberAndIdNot(String number, UUID id);
 
     List<Contact> findByNameContaining(String name, Sort sort);
 

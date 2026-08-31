@@ -19,6 +19,10 @@ public interface ContactDAO {
 
     boolean existsByName(String name);
 
+    boolean existsByNameAndIdNot(String name, UUID id);
+
+    boolean existsByPhoneNumberAndIdNot(String number, UUID id);
+
     boolean existsByPhoneNumber(String number);
 
     void deleteContact(UUID id);
