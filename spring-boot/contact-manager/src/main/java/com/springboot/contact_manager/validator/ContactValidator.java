@@ -22,8 +22,14 @@ public class ContactValidator {
         if(CommonUtil.checkIsNullOrEmpty(request.getPhoneNumber()) || !request.getPhoneNumber().matches("^\\+\\d{2} [6-9]\\d{9}$")) {
             throw new IllegalArgumentException("Enter a valid phone number");
         }
+        if(CommonUtil.checkIsNullOrEmpty(request.getEmail()) || !request.getEmail().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+            throw new IllegalArgumentException("Enter a valid email");
+        }
         if(contactDAO.existsByName(request.getName())) {
             throw new IllegalArgumentException("Name already exists");
+        }
+        if(contactDAO.existsByPhoneNumber(request.getPhoneNumber())) {
+            throw new IllegalArgumentException("Phone Number already exists");
         }
     }
 }

@@ -17,7 +17,6 @@ import com.springboot.contact_manager.validator.ContactValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -27,7 +26,6 @@ public class ContactServiceImpl implements ContactService {
     private final RequestMapper requestMapper;
     private final ResponseMapper responseMapper;
     private final ContactValidator contactValidator;
-    private final StatusDetail statusDetail;
 
     public ContactServiceImpl(ContactDAO contactDAO, RequestMapper requestMapper, ContactValidator contactValidator,
                               ResponseMapper responseMapper) {
@@ -35,7 +33,6 @@ public class ContactServiceImpl implements ContactService {
         this.requestMapper = requestMapper;
         this.contactValidator = contactValidator;
         this.responseMapper = responseMapper;
-        this.statusDetail = new StatusDetail();
     }
 
     public ContactListResponse search(String name) {
@@ -43,6 +40,7 @@ public class ContactServiceImpl implements ContactService {
             throw new IllegalArgumentException("Enter a valid name");
         }
         ContactListResponse response = new ContactListResponse();
+        StatusDetail statusDetail = new StatusDetail();
         List<Contact> contacts = contactDAO.search(name);
         List<ContactDTO> res = responseMapper.convertContact(contacts);
         response.setContacts(res);
@@ -56,9 +54,10 @@ public class ContactServiceImpl implements ContactService {
 
     public ContactResponse createContact(ContactDTO request) {
         ContactResponse response = new ContactResponse();
+        StatusDetail statusDetail = new StatusDetail();
         contactValidator.validate(request);
         Contact contact = requestMapper.buildContact(request);
-        contact = contactDAO.addContact(contact);
+        contact = contactDAO.save(contact);
         response.setId(contact.getId());
         response.setStatus(StatusConstants.CREATED);
         statusDetail.setCode(StatusConstants.CREATED);
@@ -69,9 +68,10 @@ public class ContactServiceImpl implements ContactService {
 
     public ContactResponse getContact(UUID id) {
         ContactResponse response = new ContactResponse();
-        Optional<Contact> contact = contactDAO.getContact(id);
-        if(contact.isPresent()) {
-            response.setContact(requestMapper.convert(contact.get()));
+        StatusDetail statusDetail = new StatusDetail();
+        Contact contact = contactDAO.getContact(id);
+        if(!CommonUtil.checkIsNullOrEmpty(contact)) {
+            response.setContact(responseMapper.convert(contact));
             response.setStatus(StatusConstants.SUCCESS);
             statusDetail.setCode(StatusConstants.SUCCESS);
             statusDetail.setMessage(MessageConstants.SUCCESS);
@@ -83,11 +83,11 @@ public class ContactServiceImpl implements ContactService {
         statusDetail.setMessage(MessageConstants.NOT_FOUND);
         response.setStatusDetail(statusDetail);
         return response;
-
     }
 
     public ContactListResponse getContacts() {
         ContactListResponse response = new ContactListResponse();
+        StatusDetail statusDetail = new StatusDetail();
         List<Contact> contacts = contactDAO.getContacts();
         List<ContactDTO> result = responseMapper.convert(contacts);
         response.setContacts(result);
@@ -98,18 +98,30 @@ public class ContactServiceImpl implements ContactService {
         return response;
     }
 
-    public BaseResponse updateContact(UUID id) {
+    public BaseResponse updateContact(UUID id, ContactDTO request) {
         BaseResponse response = new BaseResponse();
+        StatusDetail statusDetail = new StatusDetail();
+        Contact contact = contactDAO.getContact(id);
+        if(!CommonUtil.checkIsNullOrEmpty(contact)) {
+            updateFields(contact, request);
+        }
+        contactDAO.save(contact);
+        response.setStatus(StatusConstants.SUCCESS);
+        statusDetail.setCode(StatusConstants.SUCCESS);
+        statusDetail.setMessage(MessageConstants.SUCCESS);
+        response.setStatusDetail(statusDetail);
         return response;
     }
 
     public BaseResponse deleteContact(UUID id) {
         BaseResponse response = new BaseResponse();
+        StatusDetail statusDetail = new StatusDetail();
         if(!contactDAO.existsById(id)) {
             response.setStatus(StatusConstants.NOT_FOUND);
             statusDetail.setCode(StatusConstants.NOT_FOUND);
             statusDetail.setMessage(MessageConstants.NOT_FOUND);
             response.setStatusDetail(statusDetail);
+            return response;
         }
         contactDAO.deleteContact(id);
         response.setStatus(StatusConstants.SUCCESS);
@@ -117,6 +129,27 @@ public class ContactServiceImpl implements ContactService {
         statusDetail.setMessage(MessageConstants.SUCCESS);
         response.setStatusDetail(statusDetail);
         return response;
+    }
+
+    private void updateFields(Contact contact, ContactDTO request) {
+        if(!CommonUtil.checkIsNullOrEmpty(request.getName())) {
+            if(!contactDAO.existsByName(request.getName()))
+                contact.setName(request.getName());
+            else throw new IllegalArgumentException("Name already exists");
+        }
+        if(!CommonUtil.checkIsNullOrEmpty(request.getEmail())) {
+            if(!request.getEmail().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"))
+                throw new IllegalArgumentException("Enter a valid email");
+            else
+                contact.setEmail(request.getEmail());
+        }
+        if(!CommonUtil.checkIsNullOrEmpty(request.getPhoneNumber())) {
+            if(!request.getPhoneNumber().matches("^\\+\\d{2} [6-9]\\d{9}$"))
+                throw new IllegalArgumentException("Enter a valid phone number");
+            if(!contactDAO.existsByPhoneNumber(request.getPhoneNumber()))
+                contact.setPhoneNumber(request.getPhoneNumber());
+            else throw new IllegalArgumentException("Phone Number already exists");
+        }
     }
 
 }

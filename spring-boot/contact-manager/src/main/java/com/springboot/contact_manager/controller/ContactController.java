@@ -57,8 +57,8 @@ public class ContactController {
     }
 
     @PatchMapping(EndpointConstants.UPDATE_CONTACT)
-    public ResponseEntity<BaseResponse> updateContact(@PathVariable("id") UUID id) {
-        BaseResponse response = contactService.updateContact(id);
+    public ResponseEntity<BaseResponse> updateContact(@PathVariable("id") UUID id, @RequestBody ContactDTO request) {
+        BaseResponse response = contactService.updateContact(id, request);
 
         return ResponseEntity
                 .status(response.getStatus())

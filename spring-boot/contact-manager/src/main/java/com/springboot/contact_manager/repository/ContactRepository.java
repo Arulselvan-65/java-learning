@@ -14,6 +14,8 @@ public interface ContactRepository extends JpaRepository<Contact, UUID> {
 
     boolean existsByName(String name);
 
-    @Query(value = "SELECT c FROM Contact c WHERE c.name LIKE %:name% ORDER BY c.name")
+    boolean existsByPhoneNumber(String number);
+
+    @Query(value = "SELECT c FROM Contact c WHERE c.name LIKE CONCAT('%',:name,'%') ORDER BY c.name")
     List<Contact> search(@Param("name") String name);
 }

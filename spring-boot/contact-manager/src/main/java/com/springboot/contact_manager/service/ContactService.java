@@ -17,7 +17,7 @@ public interface ContactService {
 
     ContactListResponse getContacts();
 
-    BaseResponse updateContact(UUID id);
+    BaseResponse updateContact(UUID id, ContactDTO request);
 
     BaseResponse deleteContact(UUID id);
 

@@ -17,13 +17,4 @@ public class RequestMapper {
                 .email(request.getEmail())
                 .build();
     }
-
-    public ContactDTO convert(Contact request) {
-        return ContactDTO.builder()
-                .id(request.getId())
-                .name(request.getName())
-                .phoneNumber(request.getPhoneNumber())
-                .email(request.getEmail())
-                .build();
-    }
 }

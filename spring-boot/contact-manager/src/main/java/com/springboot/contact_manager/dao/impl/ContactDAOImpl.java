@@ -23,7 +23,7 @@ public class ContactDAOImpl implements ContactDAO {
         return contactRepository.search(name);
     }
 
-    public Contact addContact(Contact contact) {
+    public Contact save(Contact contact) {
         return contactRepository.save(contact);
     }
 
@@ -31,12 +31,16 @@ public class ContactDAOImpl implements ContactDAO {
         return contactRepository.findAll();
     }
 
-    public Optional<Contact> getContact(UUID id) {
-        return contactRepository.findById(id);
+    public Contact getContact(UUID id) {
+        return contactRepository.findById(id).orElse(null);
     }
 
     public boolean existsById(UUID id) {
         return contactRepository.existsById(id);
+    }
+
+    public boolean existsByPhoneNumber(String number) {
+        return contactRepository.existsByPhoneNumber(number);
     }
 
     public boolean existsByName(String name) {

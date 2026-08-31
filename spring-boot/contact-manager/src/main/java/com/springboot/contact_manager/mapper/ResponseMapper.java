@@ -35,4 +35,13 @@ public class ResponseMapper {
         }
         return res;
     }
+
+    public ContactDTO convert(Contact request) {
+        return ContactDTO.builder()
+                .id(request.getId())
+                .name(request.getName())
+                .phoneNumber(request.getPhoneNumber())
+                .email(request.getEmail())
+                .build();
+    }
 }
