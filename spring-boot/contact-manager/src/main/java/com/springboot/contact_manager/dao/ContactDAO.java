@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface ContactDAO {
 
-    List<Contact> search(String name);
+    List<Contact> findByNameContaining(String name, boolean isDesc);
 
     Contact save(Contact contact);
 

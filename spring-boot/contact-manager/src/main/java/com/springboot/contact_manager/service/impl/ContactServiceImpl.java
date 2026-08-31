@@ -35,18 +35,24 @@ public class ContactServiceImpl implements ContactService {
         this.responseMapper = responseMapper;
     }
 
-    public ContactListResponse search(String name) {
+    public ContactListResponse search(String name,boolean isDesc) {
         if(CommonUtil.checkIsNullOrEmpty(name)) {
             throw new IllegalArgumentException("Enter a valid name");
         }
         ContactListResponse response = new ContactListResponse();
         StatusDetail statusDetail = new StatusDetail();
-        List<Contact> contacts = contactDAO.search(name);
-        List<ContactDTO> res = responseMapper.convertContact(contacts);
-        response.setContacts(res);
-        response.setStatus(StatusConstants.SUCCESS);
-        statusDetail.setCode(StatusConstants.SUCCESS);
-        statusDetail.setMessage(MessageConstants.SUCCESS);
+        List<Contact> contacts = contactDAO.findByNameContaining(name, isDesc);
+        if(!CommonUtil.checkIsNullOrEmpty(contacts)) {
+            List<ContactDTO> res = responseMapper.convertContact(contacts);
+            response.setContacts(res);
+            response.setStatus(StatusConstants.SUCCESS);
+            statusDetail.setCode(StatusConstants.SUCCESS);
+            statusDetail.setMessage(MessageConstants.SUCCESS);
+            response.setStatusDetail(statusDetail);
+        }
+        response.setStatus(StatusConstants.NOT_FOUND);
+        statusDetail.setCode(StatusConstants.NOT_FOUND);
+        statusDetail.setMessage(MessageConstants.NOT_FOUND);
         response.setStatusDetail(statusDetail);
         return response;
     }

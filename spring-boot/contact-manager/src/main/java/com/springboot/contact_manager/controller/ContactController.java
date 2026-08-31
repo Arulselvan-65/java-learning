@@ -22,8 +22,8 @@ public class ContactController {
     }
 
     @GetMapping(EndpointConstants.SEARCH)
-    public ResponseEntity<ContactListResponse> search(@RequestParam("name") String name) {
-        ContactListResponse response = contactService.search(name);
+    public ResponseEntity<ContactListResponse> search(@RequestParam("name") String name, @RequestParam(value = "isDesc", defaultValue = "false") boolean isDesc) {
+        ContactListResponse response = contactService.search(name, isDesc);
 
         return ResponseEntity
                 .status(response.getStatus())

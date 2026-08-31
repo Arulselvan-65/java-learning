@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface ContactService {
 
-    ContactListResponse search(String name);
+    ContactListResponse search(String name, boolean isDesc);
 
     ContactResponse createContact(ContactDTO request);
 

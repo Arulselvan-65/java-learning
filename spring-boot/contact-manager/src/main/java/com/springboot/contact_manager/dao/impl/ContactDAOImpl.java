@@ -4,10 +4,10 @@ import com.springboot.contact_manager.dao.ContactDAO;
 import com.springboot.contact_manager.model.Contact;
 import com.springboot.contact_manager.repository.ContactRepository;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -19,8 +19,10 @@ public class ContactDAOImpl implements ContactDAO {
         this.contactRepository = repository;
     }
 
-    public List<Contact> search(String name) {
-        return contactRepository.search(name);
+    public List<Contact> findByNameContaining(String name, boolean isDesc) {
+        return contactRepository.findByNameContaining(name,
+                isDesc ? Sort.by(Sort.Direction.DESC, "name")
+                : Sort.by(Sort.Direction.ASC, "name"));
     }
 
     public Contact save(Contact contact) {
@@ -46,7 +48,6 @@ public class ContactDAOImpl implements ContactDAO {
     public boolean existsByName(String name) {
         return contactRepository.existsByName(name);
     }
-
 
     public void deleteContact(UUID id) {
          contactRepository.deleteById(id);
